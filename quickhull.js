@@ -20,6 +20,7 @@ function dot(a,b) {
 // || (a-p) - ((a-p) \dot n) n ||
 function distLineToPoint(a, b, p) {
     var n = vectDiff(b, a)
+    n = vectScale(n, 1/Math.sqrt(n[0]*n[0]+n[1]*n[1]))
     
     var amp = vectDiff(a, p)
     var d = vectDiff(amp, vectScale(n,(dot(amp, n))))
@@ -33,7 +34,8 @@ function isStrictlyRight(p) {
 
 // sort the given points in CCW order
 // FIXME: 
-function sortHull(S) {
+function sortHull(Sorig) {
+    var S = Sorig.slice()
     var Ssorted = []
     var last = S.shift()
     Ssorted.push(last)
@@ -61,37 +63,44 @@ function quickHullInner(S, a, b) {
 
     var d = S.map(function(p) {return {dist: lr(a,b,p)*distLineToPoint(a, b, p), point: p}})
     d.sort(function(a,b) { return a.dist > b.dist ? 1 : -1 })
+    var dd = d.map(function(pp) { return pp.point })
 
     var c = d.pop()
     if (c.dist <= 0) {
         return []
-    } else {
-        c = c.point
     }
+    c = c.point
 
-    var A = S.filter(isStrictlyRight, {a:a, b:c})
-    var B = S.filter(isStrictlyRight, {a:c, b:b})
+    // seems like these should be reversed, but this works
+    var A = dd.filter(isStrictlyRight, {a:c, b:a})
+    var B = dd.filter(isStrictlyRight, {a:b, b:c})
 
     // FIXME need better way in case qHI returns []
-    return quickHullInner(A, a, c).concat([c], quickHullInner(B, c, b))
+    var ress = quickHullInner(A, a, c).concat([c], quickHullInner(B, c, b))
+    return ress
 
 }
 
 function quickHull(S) {
+    if (S.length < 3) {
+        return S
+    } else {
+        var d = S.slice()
+        // sort by x
+        d.sort(function(a,b) {return a[0] > b[0] ? 1 : -1})
 
-    var d = S.slice()
-    // sort by x, then y if x is equal
-    d.sort(function(a,b) {return a[0] > b[0] ? 1 : a[0] == b[0] ? a[1]>b[1] : -1})
+        var a = d.shift()
+        var b = d.pop()
 
-    var a = d.shift()
-    var b = d.pop()
+        var S1 = S.filter(isStrictlyRight, {a:b, b:a})
+        var S2 = S.filter(isStrictlyRight, {a:a, b:b})
 
-    var S1 = S.filter(isStrictlyRight, {a:b, b:a})
-    var S2 = S.filter(isStrictlyRight, {a:a, b:b})
+        var x = quickHullInner(S1,a,b)
+        var y = quickHullInner(S2,b,a)
+        var res = [a].concat(x, [b], y)
 
-    // filter(Boolean) removes empty or undefined values
-    var res = [a].concat(quickHullInner(S1,a,b), [b], quickHullInner(S2,b,a)).filter(Boolean)
-    return sortHull(res)
+        return sortHull(res)
+    }
 }
 
 module.exports = quickHull
