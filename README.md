@@ -13,6 +13,10 @@ var points = [ [-1,0], [1,0], [0,1], [0,0.5] ]
 var hull = qh(points)
 ```
 
+## Demo
+
+http://aas.io/node-quick-hull-2d/visualizer/
+
 ## Install
 
     npm install quick-hull-2d
