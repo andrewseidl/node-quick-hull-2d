@@ -1,0 +1,31 @@
+{
+  "name": "quick-hull-2d",
+  "version": "0.0.0",
+  "description": "Computes the convex hull of a given set of points using the Quick Hull algorithm.",
+  "main": "quickhull.js",
+  "scripts": {
+    "test": "tap test/*.js"
+  },
+  "dependencies": {
+    "left-right": "~0.0.1"
+  },
+  "devDependencies": {
+    "tape": "~1.1.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/andrewseidl/node-quick-hull-2d.git"
+  },
+  "keywords": [
+    "quickhull",
+    "convex",
+    "hull",
+    "geometric",
+    "2d"
+  ],
+  "author": "Andrew Seidl",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/andrewseidl/node-quick-hull-2d/issues"
+  }
+}
