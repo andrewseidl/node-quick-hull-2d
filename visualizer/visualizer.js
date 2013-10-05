@@ -1,3 +1,6 @@
+// Based on code from Dan Melanz
+// https://github.com/melanz/graham-scan
+//
 var quickhull = require("../quickhull.js")
 
 var scale = document.body.querySelector("#scale").value
