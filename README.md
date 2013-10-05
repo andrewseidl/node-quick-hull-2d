@@ -15,7 +15,7 @@ var hull = qh(points)
 
 ## Demo
 
-http://aas.io/node-quick-hull-2d/visualizer/
+http://andrewseidl.github.io/node-quick-hull-2d/visualizer/
 
 ## Install
 
