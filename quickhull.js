@@ -54,6 +54,22 @@ function sortHull(Sorig) {
     return Ssorted
 }
 
+// remove colinear points
+// assume that the input points are already sorted
+// FIXME we could take this further and enforce points to be positively oriented
+function removeColinearPoints(S) {
+    var Sclean = []
+    var l = S.length
+
+    for (var i=0; i < S.length; i++) {
+        if ( lr(S[(i+l-1)%l], S[i], S[(i+1)%l]) != 0 ) {
+            Sclean.push(S[i]);
+        }
+    }
+
+    return Sclean
+}
+
 // QuickHull
 // O'Rourke - Computational Geometry in C, p. 70
 function quickHullInner(S, a, b) {
@@ -99,7 +115,7 @@ function quickHull(S) {
         var y = quickHullInner(S2,b,a)
         var res = [a].concat(x, [b], y)
 
-        return sortHull(res)
+        return removeColinearPoints(sortHull(res))
     }
 }
 
