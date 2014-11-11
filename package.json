@@ -1,6 +1,6 @@
 {
   "name": "quick-hull-2d",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "description": "Computes the convex hull of a given set of points using the Quick Hull algorithm.",
   "main": "quickhull.js",
   "scripts": {
