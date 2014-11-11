@@ -1,6 +1,6 @@
 "use strict"
 
-var lr = require("left-right")
+var lr = require("robust-orientation")
 
 // these should probably use robust-sum, etc
 function vectSum(a,b) {
@@ -29,7 +29,7 @@ function distLineToPoint(a, b, p) {
 }
 
 function isStrictlyRight(p) {
-        return lr(this.a, this.b, p) == -1 ? 1 : 0
+        return lr(this.a, this.b, p) < 0 ? 1 : 0
 }
 
 // sort the given points in CCW order
@@ -42,7 +42,7 @@ function sortHull(Sorig) {
 
     while (S.length > 0) {
         var curr = S.shift()
-        var A = S.filter(isStrictlyRight, {a:last, b:curr})
+        var A = S.filter(isStrictlyRight, {a:curr, b:last})
         if (A.length == 0) {
             Ssorted.push(curr)
             last = curr
